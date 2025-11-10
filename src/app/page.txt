@@ -1,0 +1,8 @@
+// src/app/page.tsx
+import { redirect } from 'next/navigation';
+
+export default function RootPage() {
+  // The (dashboard) layout will catch this and render the
+  // correct homepage, or redirect to a role-specific page.
+  redirect('/');
+}

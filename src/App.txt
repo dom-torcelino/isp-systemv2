@@ -1,0 +1,630 @@
+import { useState } from "react";
+import { ThemeProvider } from "./contexts/ThemeContext";
+import { LanguageProvider } from "./contexts/LanguageContext";
+import { DashboardLayout } from "./components/DashboardLayout";
+import { SuperAdminDashboard } from "./components/SuperAdminDashboard";
+import { SystemAdminDashboard } from "./components/SystemAdminDashboard";
+import { CustomerSupportDashboard } from "./components/CustomerSupportDashboard";
+import { FieldTechnicianDashboard } from "./components/FieldTechnicianDashboard";
+import { FieldTechnicianDashboardWrapper } from "./components/FieldTechnicianDashboardWrapper";
+import { JobDetailsScreen } from "./components/JobDetailsScreen";
+import { CustomerPortalDashboard } from "./components/CustomerPortalDashboard";
+import { TenantOnboardingModal } from "./components/TenantOnboardingModal";
+import { BillingDashboard } from "./components/BillingDashboard";
+import { ReportsLibrary } from "./components/ReportsLibrary";
+import { TicketManagementPage } from "./components/TicketManagementPage";
+import { CustomerManagementPage } from "./components/CustomerManagementPage";
+import { TenantSettingsPage } from "./components/TenantSettingsPage";
+import { TenantManagementPage } from "./components/TenantManagementPage";
+import { AuditLogsPage } from "./components/AuditLogsPage";
+import { SupportTicketsPage } from "./components/SupportTicketsPage";
+import { SupportCustomersPage } from "./components/SupportCustomersPage";
+import { BillingHistoryPage } from "./components/BillingHistoryPage";
+import { TenantAuditLogPage } from "./components/TenantAuditLogPage";
+import { TechnicianSchedulePage } from "./components/TechnicianSchedulePage";
+import { TechnicianMapView } from "./components/TechnicianMapView";
+import { TechnicianProfilePage } from "./components/TechnicianProfilePage";
+import { TechnicianBottomNav } from "./components/TechnicianBottomNav";
+import { GlobalAuditLogsPage } from "./components/GlobalAuditLogsPage";
+import { SaaSPlansPage } from "./components/SaaSPlansPage";
+import { TechnicianOpsPage } from "./components/TechnicianOpsPage";
+import { AccountSettingsPage } from "./components/AccountSettingsPage";
+import { TicketDetailsPage } from "./components/TicketDetailsPage";
+import { CustomerProfilePage } from "./components/CustomerProfilePage";
+import { GlobalSettingsPage } from "./components/GlobalSettingsPage";
+import { ITOperationsDashboard } from "./components/ITOperationsDashboard";
+import { NetworkDevicesPage } from "./components/NetworkDevicesPage";
+import { Button } from "./components/ui/button";
+import { Plus } from "lucide-react";
+
+type Role =
+  | "Super Admin"
+  | "System Admin"
+  | "Customer Support"
+  | "Field Technician"
+  | "Customer"
+  | "IT";
+type TechnicianView =
+  | "jobs"
+  | "details"
+  | "schedule"
+  | "map"
+  | "profile";
+type SystemAdminView =
+  | "dashboard"
+  | "billing"
+  | "reports"
+  | "tickets"
+  | "customers"
+  | "settings"
+  | "audit"
+  | "technicians"
+  | "customerProfile"
+  | "devices"
+  | "ticketDetails";
+type SuperAdminView =
+  | "dashboard"
+  | "tenants"
+  | "audit"
+  | "plans"
+  | "globalSettings";
+type SupportView =
+  | "dashboard"
+  | "tickets"
+  | "customers"
+  | "ticketDetails"
+  | "customerProfile";
+type CustomerView = "dashboard" | "billing";
+type ITView = "dashboard" | "devices";
+type SharedView = "accountSettings";
+
+function AppContent() {
+  const [currentRole, setCurrentRole] =
+    useState<Role>("Super Admin");
+  const [technicianView, setTechnicianView] =
+    useState<TechnicianView>("jobs");
+  const [systemAdminView, setSystemAdminView] =
+    useState<SystemAdminView>("dashboard");
+  const [superAdminView, setSuperAdminView] =
+    useState<SuperAdminView>("dashboard");
+  const [supportView, setSupportView] =
+    useState<SupportView>("dashboard");
+  const [customerView, setCustomerView] =
+    useState<CustomerView>("dashboard");
+  const [itView, setITView] = useState<ITView>("dashboard");
+  const [showTenantModal, setShowTenantModal] = useState(false);
+  const [showAccountSettings, setShowAccountSettings] =
+    useState(false);
+
+  const getNavigationItems = () => {
+    if (currentRole === "Super Admin") {
+      return [
+        {
+          name: "Dashboard",
+          icon: "dashboard",
+          active: superAdminView === "dashboard",
+          view: "dashboard",
+        },
+        {
+          name: "Tenant Management",
+          icon: "building",
+          active: superAdminView === "tenants",
+          view: "tenants",
+        },
+        {
+          name: "SaaS Plans",
+          icon: "credit",
+          active: superAdminView === "plans",
+          view: "plans",
+        },
+        {
+          name: "Global Settings",
+          icon: "settings",
+          active: superAdminView === "globalSettings",
+          view: "globalSettings",
+        },
+        {
+          name: "Audit Logs",
+          icon: "file",
+          active: superAdminView === "audit",
+          view: "audit",
+        },
+      ];
+    }
+
+    if (currentRole === "System Admin") {
+      return [
+        {
+          name: "Dashboard",
+          icon: "dashboard",
+          active: systemAdminView === "dashboard",
+          view: "dashboard",
+        },
+        {
+          name: "Ticket Management",
+          icon: "ticket",
+          active: systemAdminView === "tickets",
+          view: "tickets",
+        },
+        {
+          name: "Customer Management",
+          icon: "users",
+          active: systemAdminView === "customers",
+          view: "customers",
+        },
+        {
+          name: "Billing",
+          icon: "credit",
+          active: systemAdminView === "billing",
+          view: "billing",
+        },
+        {
+          name: "Technician Ops",
+          icon: "wrench",
+          active: systemAdminView === "technicians",
+          view: "technicians",
+        },
+        {
+          name: "Reports",
+          icon: "chart",
+          active: systemAdminView === "reports",
+          view: "reports",
+        },
+        {
+          name: "Tenant Settings",
+          icon: "settings",
+          active: systemAdminView === "settings",
+          view: "settings",
+        },
+        {
+          name: "Network Devices",
+          icon: "server",
+          active: systemAdminView === "devices",
+          view: "devices",
+        },
+        {
+          name: "Audit Log",
+          icon: "file",
+          active: systemAdminView === "audit",
+          view: "audit",
+        },
+      ];
+    }
+
+    if (currentRole === "Customer Support") {
+      return [
+        {
+          name: "Dashboard",
+          icon: "dashboard",
+          active: supportView === "dashboard",
+          view: "dashboard",
+        },
+        {
+          name: "Tickets",
+          icon: "ticket",
+          active: supportView === "tickets",
+          view: "tickets",
+        },
+        {
+          name: "Customers",
+          icon: "users",
+          active: supportView === "customers",
+          view: "customers",
+        },
+        {
+          name: "Knowledge Base",
+          icon: "file",
+          active: false,
+          view: "kb",
+        },
+      ];
+    }
+
+    if (currentRole === "IT") {
+      return [
+        {
+          name: "Dashboard",
+          icon: "dashboard",
+          active: itView === "dashboard",
+          view: "dashboard",
+        },
+        {
+          name: "Network Devices",
+          icon: "server",
+          active: itView === "devices",
+          view: "devices",
+        },
+      ];
+    }
+
+    return [];
+  };
+
+  const handleNavigation = (view: string) => {
+    if (currentRole === "Super Admin") {
+      if (
+        [
+          "dashboard",
+          "tenants",
+          "audit",
+          "plans",
+          "globalSettings",
+        ].includes(view)
+      ) {
+        setSuperAdminView(view as SuperAdminView);
+        setShowAccountSettings(false);
+      }
+    } else if (currentRole === "System Admin") {
+      if (
+        [
+          "dashboard",
+          "billing",
+          "reports",
+          "tickets",
+          "customers",
+          "settings",
+          "audit",
+          "technicians",
+          "customerProfile",
+          "devices",
+          "ticketDetails",
+        ].includes(view)
+      ) {
+        setSystemAdminView(view as SystemAdminView);
+        setShowAccountSettings(false);
+      }
+    } else if (currentRole === "Customer Support") {
+      if (
+        [
+          "dashboard",
+          "tickets",
+          "customers",
+          "ticketDetails",
+          "customerProfile",
+        ].includes(view)
+      ) {
+        setSupportView(view as SupportView);
+        setShowAccountSettings(false);
+      }
+    } else if (currentRole === "IT") {
+      if (["dashboard", "devices"].includes(view)) {
+        setITView(view as ITView);
+        setShowAccountSettings(false);
+      }
+    }
+  };
+
+  const renderContent = () => {
+    // Account Settings view is shared across all roles
+    if (showAccountSettings) {
+      return <AccountSettingsPage />;
+    }
+
+    switch (currentRole) {
+      case "Super Admin":
+        switch (superAdminView) {
+          case "dashboard":
+            return (
+              <>
+                <SuperAdminDashboard />
+                <TenantOnboardingModal
+                  open={showTenantModal}
+                  onOpenChange={setShowTenantModal}
+                />
+              </>
+            );
+          case "tenants":
+            return <TenantManagementPage />;
+          case "plans":
+            return <SaaSPlansPage />;
+          case "globalSettings":
+            return <GlobalSettingsPage />;
+          case "audit":
+            return <GlobalAuditLogsPage />;
+          default:
+            return <SuperAdminDashboard />;
+        }
+      case "System Admin":
+        switch (systemAdminView) {
+          case "dashboard":
+            return <SystemAdminDashboard />;
+          case "billing":
+            return <BillingDashboard />;
+          case "reports":
+            return <ReportsLibrary />;
+          case "tickets":
+            return (
+              <TicketManagementPage
+                onNavigateToTicketDetails={() =>
+                  setSystemAdminView("ticketDetails")
+                }
+              />
+            );
+          case "ticketDetails":
+            return (
+              <TicketDetailsPage
+                onBack={() => setSystemAdminView("tickets")}
+              />
+            );
+          case "customers":
+            return (
+              <CustomerManagementPage
+                onNavigateToCustomerProfile={() =>
+                  setSystemAdminView("customerProfile")
+                }
+              />
+            );
+          case "customerProfile":
+            return (
+              <CustomerProfilePage
+                onBack={() => setSystemAdminView("customers")}
+              />
+            );
+          case "technicians":
+            return <TechnicianOpsPage />;
+          case "settings":
+            return <TenantSettingsPage />;
+          case "devices":
+            return <NetworkDevicesPage />;
+          case "audit":
+            return <TenantAuditLogPage />;
+          default:
+            return <SystemAdminDashboard />;
+        }
+      case "Customer Support":
+        switch (supportView) {
+          case "dashboard":
+            return (
+              <CustomerSupportDashboard
+                onNavigateToTicketDetails={() =>
+                  setSupportView("ticketDetails")
+                }
+              />
+            );
+          case "tickets":
+            return (
+              <SupportTicketsPage
+                onNavigateToTicketDetails={() =>
+                  setSupportView("ticketDetails")
+                }
+              />
+            );
+          case "customers":
+            return (
+              <SupportCustomersPage
+                onNavigateToCustomerProfile={() =>
+                  setSupportView("customerProfile")
+                }
+              />
+            );
+          case "ticketDetails":
+            return (
+              <TicketDetailsPage
+                onBack={() => setSupportView("tickets")}
+              />
+            );
+          case "customerProfile":
+            return (
+              <CustomerProfilePage
+                onBack={() => setSupportView("customers")}
+              />
+            );
+          default:
+            return (
+              <CustomerSupportDashboard
+                onNavigateToTicketDetails={() =>
+                  setSupportView("ticketDetails")
+                }
+              />
+            );
+        }
+      case "Field Technician":
+        switch (technicianView) {
+          case "jobs":
+            return (
+              <FieldTechnicianDashboardWrapper
+                onViewDetails={() =>
+                  setTechnicianView("details")
+                }
+              />
+            );
+          case "details":
+            return (
+              <JobDetailsScreen
+                onBack={() => setTechnicianView("jobs")}
+              />
+            );
+          case "schedule":
+            return (
+              <TechnicianSchedulePage
+                onViewDetails={() =>
+                  setTechnicianView("details")
+                }
+              />
+            );
+          case "map":
+            return (
+              <TechnicianMapView
+                onViewDetails={() =>
+                  setTechnicianView("details")
+                }
+              />
+            );
+          case "profile":
+            return <TechnicianProfilePage />;
+          default:
+            return (
+              <FieldTechnicianDashboardWrapper
+                onViewDetails={() =>
+                  setTechnicianView("details")
+                }
+              />
+            );
+        }
+      case "Customer":
+        switch (customerView) {
+          case "dashboard":
+            return (
+              <CustomerPortalDashboard
+                onNavigateToBilling={() =>
+                  setCustomerView("billing")
+                }
+              />
+            );
+          case "billing":
+            return <BillingHistoryPage />;
+          default:
+            return (
+              <CustomerPortalDashboard
+                onNavigateToBilling={() =>
+                  setCustomerView("billing")
+                }
+              />
+            );
+        }
+      case "IT":
+        switch (itView) {
+          case "dashboard":
+            return <ITOperationsDashboard />;
+          case "devices":
+            return <NetworkDevicesPage />;
+          default:
+            return <ITOperationsDashboard />;
+        }
+      default:
+        return null;
+    }
+  };
+
+  // Field Technician and Customer have different layouts
+  if (currentRole === "Field Technician") {
+    return (
+      <div className="min-h-screen bg-background p-6">
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h1>Field Technician View</h1>
+            <p className="text-muted-foreground text-sm">
+              Mobile-optimized interface
+            </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <select
+              value={currentRole}
+              onChange={(e) => {
+                setCurrentRole(e.target.value as Role);
+                setTechnicianView("jobs");
+              }}
+              className="rounded-lg border border-border bg-card px-3 py-2 text-sm"
+            >
+              <option value="Super Admin">Super Admin</option>
+              <option value="System Admin">System Admin</option>
+              <option value="Customer Support">
+                Customer Support
+              </option>
+              <option value="Field Technician">
+                Field Technician
+              </option>
+              <option value="Customer">Customer</option>
+            </select>
+          </div>
+        </div>
+        {renderContent()}
+        <TechnicianBottomNav
+          currentView={technicianView}
+          onNavigate={(view) => setTechnicianView(view)}
+        />
+      </div>
+    );
+  }
+
+  if (currentRole === "Customer") {
+    return (
+      <div className="min-h-screen bg-background">
+        <header className="border-b border-border bg-card">
+          <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                ISP
+              </div>
+              <h2>Customer Portal</h2>
+            </div>
+            <div className="flex items-center gap-4">
+              {customerView === "billing" && (
+                <Button
+                  variant="outline"
+                  onClick={() => setCustomerView("dashboard")}
+                >
+                  Back to Dashboard
+                </Button>
+              )}
+              <select
+                value={currentRole}
+                onChange={(e) =>
+                  setCurrentRole(e.target.value as Role)
+                }
+                className="rounded-lg border border-border bg-card px-3 py-2 text-sm"
+              >
+                <option value="Super Admin">Super Admin</option>
+                <option value="System Admin">
+                  System Admin
+                </option>
+                <option value="Customer Support">
+                  Customer Support
+                </option>
+                <option value="Field Technician">
+                  Field Technician
+                </option>
+                <option value="Customer">Customer</option>
+              </select>
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                JS
+              </div>
+            </div>
+          </div>
+        </header>
+        <main className="p-6">{renderContent()}</main>
+      </div>
+    );
+  }
+
+  return (
+    <DashboardLayout
+      role={currentRole}
+      userName={
+        currentRole === "Super Admin"
+          ? "Admin User"
+          : currentRole === "System Admin"
+            ? "ISP Owner"
+            : currentRole === "IT"
+              ? "IT Admin"
+              : "Support Agent"
+      }
+      navigation={getNavigationItems()}
+      onRoleChange={(role) => {
+        setCurrentRole(role as Role);
+        setSystemAdminView("dashboard");
+        setSuperAdminView("dashboard");
+        setSupportView("dashboard");
+        setCustomerView("dashboard");
+        setITView("dashboard");
+        setShowAccountSettings(false);
+      }}
+      onNavigate={handleNavigation}
+      onAccountSettings={() => setShowAccountSettings(true)}
+    >
+      {renderContent()}
+    </DashboardLayout>
+  );
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <LanguageProvider>
+        <AppContent />
+      </LanguageProvider>
+    </ThemeProvider>
+  );
+}
+
+export default App;
