@@ -2,7 +2,7 @@
 'use client';
 
 // This is a Super Admin page
-import { SaaSPlansPage } from "@/components/SaaSPlansPage";
+import { SaaSPlansPage } from "@/features/saas/components/SaaSPlansPage"; 
 
 export default function PlansPage() {
   // We can add role checks here if needed,

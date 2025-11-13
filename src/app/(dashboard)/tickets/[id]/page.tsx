@@ -1,11 +1,11 @@
 'use client';
 
-import { TicketDetailsPage } from "@/components/TicketDetailsPage";
+import { TicketDetailsPage } from '@/features/ticket/components/TicketDetailsPage'; 
 import { useRouter } from 'next/navigation';
 
 // This is a dynamic route page.
 // The `[id]` in the folder name becomes a prop.
-export default function TicketDetails({ params }: { params: { id: string } }) {
+export default function TicketDetails({ params }: { params: any }) {
   const router = useRouter();
 
   return (

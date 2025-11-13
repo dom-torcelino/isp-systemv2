@@ -1,7 +1,7 @@
 'use client';
 
 // Import the component that was rendered in your old switch statement
-import { FieldTechnicianDashboardWrapper } from "@/components/FieldTechnicianDashboardWrapper";
+import { FieldTechnicianDashboardWrapper } from "@/features/technician-mobile/component/FieldTechnicianDashboardWrapper";
 
 // This is the landing page for the (technician) layout
 export default function TechnicianJobsPage() {

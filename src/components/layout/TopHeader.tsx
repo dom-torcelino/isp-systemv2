@@ -27,7 +27,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { NavigationSidebar } from "./NavigationSidebar"; // Import the sidebar for mobile
 
 interface TopHeaderProps {
@@ -60,7 +60,7 @@ export function TopHeader({
       className="flex h-16 items-center justify-between border-b border-border bg-card px-4 md:px-6"
       role="banner"
     >
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 ">
         {/* Mobile Menu Button */}
         <Sheet open={isMobileSidebarOpen} onOpenChange={setIsMobileSidebarOpen}>
           <SheetTrigger asChild>
@@ -86,7 +86,11 @@ export function TopHeader({
               </svg>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="p-0 w-64">
+          <SheetContent side="left" className="p-0 w-64 md:hidden">
+            {/* 2. ADD THE HEADER AND VISUALLY HIDDEN TITLE */}
+            <SheetHeader>
+              <SheetTitle className="sr-only">Main Menu</SheetTitle>
+            </SheetHeader>
             {/* This is where mobile=true is correctly used */}
             <NavigationSidebar mobile onNavigate={() => setIsMobileSidebarOpen(false)} />
           </SheetContent>

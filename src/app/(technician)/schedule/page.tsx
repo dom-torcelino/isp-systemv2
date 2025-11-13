@@ -1,6 +1,6 @@
 'use client';
 
-import { TechnicianSchedulePage } from "@/components/TechnicianSchedulePage";
+import { TechnicianSchedulePage } from '@/features/technician-mobile/component/TechnicianSchedulePage'; 
 import { useRouter } from 'next/navigation';
 
 export default function SchedulePage() {

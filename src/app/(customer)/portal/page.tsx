@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 // Import the component that was rendered in your old switch statement
-import { CustomerPortalDashboard } from "@/components/CustomerPortalDashboard";
+import { CustomerPortalDashboard } from "@/features/customer-portal/components/CustomerPortalDashboard";
 
 // This is the landing page for the (customer) layout
 export default function CustomerPortalPage() {

@@ -1,9 +1,9 @@
 'use client';
 
-import { CustomerProfilePage } from "@/components/CustomerProfilePage";
+import { CustomerProfilePage } from "@/features/customer/components/CustomerProfilePage";
 import { useRouter } from 'next/navigation';
 
-export default function CustomerProfile({ params }: { params: { id: string } }) {
+export default function CustomerProfile({ params }: { params: any }) {
   const router = useRouter();
 
   return (

@@ -2,10 +2,10 @@
 
 import { useAuth } from "@/contexts/AuthContext";
 // Import all your dashboard components
-import { SuperAdminDashboard } from "@/components/SuperAdminDashboard";
-import { SystemAdminDashboard } from "@/components/SystemAdminDashboard";
-import { CustomerSupportDashboard } from "@/components/CustomerSupportDashboard";
-import { ITOperationsDashboard } from "@/components/ITOperationsDashboard";
+import { SuperAdminDashboard } from "@/features/dashboard/components/SuperAdminDashboard";
+import { SystemAdminDashboard } from "@/features/dashboard/components/SystemAdminDashboard";
+import { CustomerSupportDashboard } from "@/features/dashboard/components/CustomerSupportDashboard";
+import { ITOperationsDashboard } from "@/features/dashboard/components/ITOperationsDashboard";
 
 export default function DashboardHomePage() {
   const { currentRole } = useAuth();

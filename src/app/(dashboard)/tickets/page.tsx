@@ -1,8 +1,8 @@
 'use client';
 
 import { useAuth } from '@/contexts/AuthContext';
-import { TicketManagementPage } from '@/components/TicketManagementPage';
-import { SupportTicketsPage } from '@/components/SupportTicketsPage';
+import { TicketManagementPage } from '@/features/ticket/components/TicketManagementPage';
+import { SupportTicketsPage } from '@/features/ticket/components/SupportTicketsPage';
 import { useRouter } from 'next/navigation';
 
 export default function TicketsPage() {

@@ -2,8 +2,8 @@
 'use client';
 
 import { useAuth } from '@/contexts/AuthContext';
-import { GlobalAuditLogsPage } from '@/components/GlobalAuditLogsPage';
-import { TenantAuditLogPage } from '@/components/TenantAuditLogPage';
+import { GlobalAuditLogsPage } from '@/features/saas/components/GlobalAuditLogsPage'; 
+import { TenantAuditLogPage } from '@/features/tenant/components/TenantAuditLogPage';
 
 export default function AuditPage() {
   const { currentRole } = useAuth();

@@ -2,7 +2,7 @@
 'use client';
 
 // This page is used by System Admin and IT roles
-import { NetworkDevicesPage } from "@/components/NetworkDevicesPage";
+import { NetworkDevicesPage } from "@/features/network/components/NetworkDevicesPage";
 
 export default function DevicesPage() {
   return <NetworkDevicesPage />;

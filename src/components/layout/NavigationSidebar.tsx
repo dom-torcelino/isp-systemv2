@@ -87,7 +87,7 @@ export function NavigationSidebar({ mobile = false, onNavigate }: { mobile?: boo
 
   return (
     <aside
-      className={`flex flex-col bg-card border-r border-border transition-all duration-300 ${
+      className={`flex flex-col bg-card border-r border-border transition-all duration-300 h-full ${
         mobile ? "w-64" : isSidebarCollapsed ? "w-20" : "w-64"
       }`}
     >

@@ -1,8 +1,8 @@
 'use client';
 
 import { useAuth } from '@/contexts/AuthContext';
-import { CustomerManagementPage } from '@/components/CustomerManagementPage';
-import { SupportCustomersPage } from '@/components/SupportCustomersPage';
+import { CustomerManagementPage } from '@/features/customer/components/CustomerManagementPage';
+import { SupportCustomersPage } from '@/features/customer/components/SupportCustomersPage'; 
 import { useRouter } from 'next/navigation';
 
 export default function CustomersPage() {

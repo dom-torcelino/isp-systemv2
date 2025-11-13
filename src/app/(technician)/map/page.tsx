@@ -1,6 +1,6 @@
 'use client';
 
-import { TechnicianMapView } from "@/components/TechnicianMapView";
+import { TechnicianMapView } from '@/features/technician-mobile/component/TechnicianMapView'; 
 import { useRouter } from 'next/navigation';
 
 export default function MapPage() {
