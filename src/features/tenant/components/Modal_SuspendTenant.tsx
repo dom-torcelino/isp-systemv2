@@ -67,7 +67,7 @@ export function Modal_SuspendTenant({
           <AlertDialogDescription id="suspend-tenant-description" className="text-base space-y-3">
             <p>
               {t(
-                `Are you sure you want to suspend  ${ tenantName }?`,
+                `Are you sure you want to suspend  ${{ tenantName }}?`,
                
               )}
             </p>

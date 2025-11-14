@@ -1,15 +1,23 @@
+// src/features/notifications/components/Panel_Notifications.tsx
 import { useState } from "react";
+import {
+  Bell,
+  CheckCheck,
+  Trash2,
+} from "lucide-react";
+// 1. UPDATED import paths
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { ScrollArea } from "./ui/scroll-area";
-import { Separator } from "./ui/separator";
-import { Bell } from "lucide-react";
-import { useLanguage } from "../contexts/LanguageContext";
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { useLanguage } from "@/contexts/LanguageContext";
+
+// (The rest of this file is copied from your src/components/Panel_Notifications.tsx)
 
 interface NotificationItem {
   id: string;
@@ -115,6 +123,7 @@ export function Panel_Notifications({ trigger }: Panel_NotificationsProps) {
               onClick={handleMarkAllAsRead}
               aria-label={t("Mark all as read")}
             >
+              <CheckCheck className="mr-2 h-4 w-4" />
               {t("Mark all as read")}
             </Button>
           )}

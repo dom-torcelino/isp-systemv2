@@ -1,16 +1,9 @@
 // src/components/layout/TopHeader.tsx
-'use client';
+"use client";
 
 import { useState, ReactNode } from "react";
-import Link from 'next/link'; // Import Link
-import {
-  Bell,
-  User,
-  LogOut,
-  Moon,
-  Globe,
-  Check,
-} from "lucide-react";
+import Link from "next/link"; // Import Link
+import { Bell, User, LogOut, Moon, Globe, Check } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useLanguage, Language } from "@/contexts/LanguageContext";
@@ -27,25 +20,25 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { NavigationSidebar } from "./NavigationSidebar"; // Import the sidebar for mobile
+import { Panel_Notifications } from "@/features/notifications/components/Panel_Notifications";
 
 interface TopHeaderProps {
   headerActions?: ReactNode;
   pageTitle?: string;
-  notificationCount?: number;
-  onNotificationsClick?: () => void;
 }
 
-export function TopHeader({
-  headerActions,
-  pageTitle,
-  notificationCount = 0,
-  onNotificationsClick,
-}: TopHeaderProps) {
+export function TopHeader({ headerActions, pageTitle }: TopHeaderProps) {
   // State for the mobile sidebar now lives here
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  
+
   // Use hooks to get global state, NOT props
   const { userName, currentRole, logout, setCurrentRole } = useAuth();
   const { isDarkMode, toggleDarkMode } = useTheme(); // <-- BUG FIX: Was toggleTheme
@@ -60,41 +53,45 @@ export function TopHeader({
       className="flex h-16 items-center justify-between border-b border-border bg-card px-4 md:px-6"
       role="banner"
     >
-      <div className="flex items-center gap-4 ">
+      <div className="flex items-center gap-4">
         {/* Mobile Menu Button */}
-        <Sheet open={isMobileSidebarOpen} onOpenChange={setIsMobileSidebarOpen}>
-          <SheetTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
-              aria-label="Open menu"
-            >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="p-0 w-64 md:hidden">
-            {/* 2. ADD THE HEADER AND VISUALLY HIDDEN TITLE */}
-            <SheetHeader>
-              <SheetTitle className="sr-only">Main Menu</SheetTitle>
-            </SheetHeader>
-            {/* This is where mobile=true is correctly used */}
-            <NavigationSidebar mobile onNavigate={() => setIsMobileSidebarOpen(false)} />
-          </SheetContent>
-        </Sheet>
+        <div className="md:hidden">
+          {" "}
+          <Sheet
+            open={isMobileSidebarOpen}
+            onOpenChange={setIsMobileSidebarOpen}
+          >
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" aria-label="Open menu">
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </Button>
+            </SheetTrigger>
+
+            <SheetContent side="left" className="p-0 w-64 md:hidden">
+              <SheetHeader>
+                <SheetTitle className="sr-only">Main Menu</SheetTitle>
+              </SheetHeader>
+
+              <NavigationSidebar
+                mobile
+                onNavigate={() => setIsMobileSidebarOpen(false)}
+              />
+            </SheetContent>
+          </Sheet>
+        </div>
 
         {pageTitle && <h1>{pageTitle}</h1>}
       </div>
@@ -118,26 +115,7 @@ export function TopHeader({
         {/* END DEMO */}
 
         {/* Notifications */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative"
-          onClick={onNotificationsClick}
-          aria-label={`Notifications ${
-            notificationCount > 0 ? `(${notificationCount} new)` : ""
-          }`}
-        >
-          <Bell className="h-5 w-5" aria-hidden="true" />
-          {notificationCount > 0 && (
-            <Badge
-              variant="destructive"
-              className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
-              aria-label={`${notificationCount} new notifications`}
-            >
-              {notificationCount > 9 ? "9+" : notificationCount}
-            </Badge>
-          )}
-        </Button>
+        <Panel_Notifications />
 
         {/* User Menu */}
         <DropdownMenu>
@@ -148,14 +126,16 @@ export function TopHeader({
             >
               <div className="hidden md:block text-right text-sm">
                 <p>{userName}</p>
-                <p className="text-muted-foreground text-xs">{t(currentRole)}</p>
+                <p className="text-muted-foreground text-xs">
+                  {t(currentRole)}
+                </p>
               </div>
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground">
                 <span aria-hidden="true">{userName.charAt(0)}</span>
               </div>
             </button>
           </DropdownMenuTrigger>
-          
+
           <DropdownMenuContent align="end" className="w-56">
             {/* REFACTOR: Use <Link> instead of onAccountSettings prop */}
             <DropdownMenuItem asChild>
@@ -173,7 +153,9 @@ export function TopHeader({
                 <span>{t("Change Language")}</span>
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent>
-                <DropdownMenuItem onClick={() => handleLanguageChange("English")}>
+                <DropdownMenuItem
+                  onClick={() => handleLanguageChange("English")}
+                >
                   <div className="flex items-center justify-between w-full">
                     <span>English</span>
                     {language === "English" && (
@@ -181,7 +163,9 @@ export function TopHeader({
                     )}
                   </div>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleLanguageChange("Filipino")}>
+                <DropdownMenuItem
+                  onClick={() => handleLanguageChange("Filipino")}
+                >
                   <div className="flex items-center justify-between w-full">
                     <span>Filipino</span>
                     {language === "Filipino" && (
